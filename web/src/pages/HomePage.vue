@@ -1,6 +1,8 @@
 <template>
     <v-content class="d-flex justify-center">
-        <router-link to="/event/redpen">빨간펜</router-link>
+        <div class="pa-4">
+            <router-link to="/event">교원 에듀 이벤트 페이지 이동</router-link>
+        </div>
     </v-content>
 </template>
 

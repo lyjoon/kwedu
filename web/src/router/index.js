@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import EventPage from '../pages/EventPage'
-// import HomePage from '../pages/HomePage'
+ import HomePage from '../pages/HomePage'
 // import AppContainer from "../components/layout/AppContainer";
 // import EventRedPen from "../components/event/EventRedPen";
 
@@ -31,7 +31,10 @@ export default new Router({
     //     }
     //   ]
     // }
-    {
+     {
+       path: '/',
+       component: HomePage
+     },{
       path: '/event',
       component: EventPage
     }
