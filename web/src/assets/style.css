@@ -1,0 +1,31 @@
+.event_main .container {
+    max-width: 1024px;
+    padding: 0px;
+}
+.edu01 {
+    background-color: #aadaff;
+}
+.edu02 {
+    background-color: #009a44;
+}
+.edu03 {
+    background-color: #fff778;
+}
+.edu04 {
+    background-color: #ffabab;
+}
+.edu05 {
+    background-color: #d2adff;
+}
+.edu06{
+    background-color: #43b9ae;
+}
+.text-field-label {
+    min-width: 150px;
+}
+
+.btn-disable-event {
+    pointer-events: none;
+    cursor: pointer;
+}
+.mb-large{margin-top:60px; margin-bottom: 100px !important;}

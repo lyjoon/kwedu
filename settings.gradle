@@ -1,0 +1,5 @@
+rootProject.name = 'kwedu'
+include 'web'
+include 'api'
+include 'api'
+
