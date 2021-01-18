@@ -87,16 +87,16 @@
                                 <div class="d-flex flex-fill">
                                     <v-row no-gutters >
                                         <v-col class="col-3">
-                                            <v-text-field v-model="children.address.zip_code" disabled readonly dense outlined  placeholder="우편번호" label="우편번호" />
+                                            <v-text-field v-model="children.address.zip_code" readonly dense outlined  placeholder="우편번호" label="우편번호" />
                                         </v-col>
                                         <v-col class="col-9 pl-4">
                                             <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
                                         </v-col>
                                         <v-col class="col-12">
-                                            <v-text-field v-model="children.address.base" disabled readonly dense outlined  placeholder="기본주소" label="기본주소"/>
+                                            <v-text-field v-model="children.address.base" readonly dense outlined  placeholder="기본주소" label="기본주소"/>
                                         </v-col>
                                         <v-col class="col-12">
-                                            <v-text-field v-model="children.address.detail" dense outlined  placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요."/>
+                                            <v-text-field v-model="children.address.detail" dense outlined placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요."/>
                                         </v-col>
                                     </v-row>
                                 </div>
@@ -114,13 +114,13 @@
                             <div class="d-block">
                                 <v-row no-gutters >
                                     <v-col class="col-5">
-                                        <v-text-field v-model="children.address.zip_code" disabled readonly placeholder="우편번호" label="우편번호" maxlength="6" dense outlined  />
+                                        <v-text-field v-model="children.address.zip_code" readonly placeholder="우편번호" label="우편번호" maxlength="6" dense outlined  />
                                     </v-col>
                                     <v-col class="col-7 pl-2">
                                         <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호</v-btn>
                                     </v-col>
                                     <v-col class="col-12">
-                                        <v-text-field v-model="children.address.base" disabled readonly placeholder="기본 주소지" label="기본 주소지" dense outlined  />
+                                        <v-text-field v-model="children.address.base" readonly placeholder="기본 주소지" label="기본 주소지" dense outlined  />
                                     </v-col>
                                     <v-col class="col-12">
                                         <v-text-field v-model="children.address.detail" placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요." dense outlined  />
@@ -267,7 +267,16 @@
                 this.parent.phone_number = res;
             },
             put : function(){
-                console.log('Vue.axios', axios.put());
+                let _config = {
+                  baseURL: 'http://localhost:8080/api',
+                  headers: {'Content-Type': 'application/json'}
+                };
+                axios.put('/event/store', {parent: this.parent, children:this.children}, _config)
+              .then(function(res){
+                console.log('put.response', res);
+              }).catch( function(err){
+                console.error('put.error.response', err);
+              });
             }
         }
     }

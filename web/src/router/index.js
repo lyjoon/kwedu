@@ -3,7 +3,6 @@ import Router from 'vue-router'
 
 import EventPage from '../pages/EventPage'
  import HomePage from '../pages/HomePage'
- import SearchAddress from '../components/common/SearchAddress'
 // import AppContainer from "../components/layout/AppContainer";
 // import EventRedPen from "../components/event/EventRedPen";
 
@@ -38,9 +37,6 @@ export default new Router({
      },{
       path: '/event',
       component: EventPage
-    },{
-      path: '/search-address',
-      component: SearchAddress
     }
   ]
 })
