@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify/lib/framework';
+import axios from 'vue-axios'
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, axios);
 
 export default new Vuetify({
     theme: {

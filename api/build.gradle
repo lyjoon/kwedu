@@ -15,4 +15,4 @@ dependencies {
 
 test {
     useJUnitPlatform()
-}
+}npm install --save axios vue-axios

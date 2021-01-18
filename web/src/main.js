@@ -8,6 +8,7 @@ Vue.config.productionTip = false
 
 Vue.use(require('vue-moment'))
 require('@/assets/style.css')
+require('@mdi/font/css/materialdesignicons.css') // Ensure you are using css-loader
 
 new Vue({
   router,

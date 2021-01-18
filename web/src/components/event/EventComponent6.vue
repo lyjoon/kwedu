@@ -4,7 +4,7 @@
              <v-sheet color="#f1f2f2" rounded class="mb-large pa-6">
                 <v-form>
                     <v-card elevation="2" round color="white" >
-                        <v-toolbar class="pink darken-2" dark dense>
+                        <v-toolbar class="primary" dark dense>
                             <v-toolbar-title>학부모 정보</v-toolbar-title>
                         </v-toolbar>
                         <v-card-text class="pt-8 hidden-sm-and-down">
@@ -65,7 +65,7 @@
                     </v-card>
                     <v-divider class="mx-auto mt-4 mb-4" />
                     <v-card elevation="2" round color="white">
-                        <v-toolbar class="pink darken-2" dark dense>
+                        <v-toolbar class="primary" dark dense>
                             <v-toolbar-title>자녀 정보</v-toolbar-title>
                         </v-toolbar>
                         <v-card-text class="pt-8 hidden-sm-and-down">
@@ -87,16 +87,16 @@
                                 <div class="d-flex flex-fill">
                                     <v-row no-gutters >
                                         <v-col class="col-3">
-                                            <v-text-field dense outlined counter />
+                                            <v-text-field v-model="children.address.zip_code" disabled readonly dense outlined  placeholder="우편번호" label="우편번호" />
                                         </v-col>
                                         <v-col class="col-9 pl-4">
-                                            <v-btn class="primary" dark elevation="1" >우편번호 검색</v-btn>
+                                            <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
                                         </v-col>
                                         <v-col class="col-12">
-                                            <v-text-field dense outlined counter />
+                                            <v-text-field v-model="children.address.base" disabled readonly dense outlined  placeholder="기본주소" label="기본주소"/>
                                         </v-col>
                                         <v-col class="col-12">
-                                            <v-text-field dense outlined counter />
+                                            <v-text-field v-model="children.address.detail" dense outlined  placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요."/>
                                         </v-col>
                                     </v-row>
                                 </div>
@@ -114,16 +114,16 @@
                             <div class="d-block">
                                 <v-row no-gutters >
                                     <v-col class="col-5">
-                                        <v-text-field placeholder="우편번호 입력" label="우편번호 입력" maxlength="6" dense outlined counter />
+                                        <v-text-field v-model="children.address.zip_code" disabled readonly placeholder="우편번호" label="우편번호" maxlength="6" dense outlined  />
                                     </v-col>
                                     <v-col class="col-7 pl-2">
-                                        <v-btn class="primary" dark elevation="1" >우편번호</v-btn>
+                                        <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호</v-btn>
                                     </v-col>
                                     <v-col class="col-12">
-                                        <v-text-field placeholder="주소지를 입력해주세요." label="주소지를 입력해주세요." dense outlined counter />
+                                        <v-text-field v-model="children.address.base" disabled readonly placeholder="기본 주소지" label="기본 주소지" dense outlined  />
                                     </v-col>
                                     <v-col class="col-12">
-                                        <v-text-field placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요." dense outlined counter />
+                                        <v-text-field v-model="children.address.detail" placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요." dense outlined  />
                                     </v-col>
                                 </v-row>
                             </div>
@@ -132,16 +132,33 @@
                 </v-form>
 
                 <div class="d-flex justify-center">
-                    <v-btn x-large class="flex-fill deep-orange darken-1 pa-8 mt-6 mb-6" dark>정보입력</v-btn>
+                    <v-btn x-large class="flex-fill primary pa-8 mt-6 mb-6" @click="put()" dark>정보입력</v-btn>
                 </div>
              </v-sheet>
          </v-container>
+         <v-dialog
+                    v-model="dialog"
+                    persistent
+                >
+                    <v-card>
+                        <v-toolbar color="primary" dense dark>
+                            <v-toolbar-title>주소검색</v-toolbar-title>
+                            <v-spacer />
+                            <v-icon class="mdi-close" @click="closeAddress">mdi-close</v-icon>
+                        </v-toolbar>
+                            <daum-postcode :on-complete="handleAddress" :key="dialogComponentKey" :on-autoclose="true" height="500px" />
+                    </v-card>
+                </v-dialog>
     </v-flex>
 </template>
 
 <script>
 
+    import axios from 'axios'
+    import daumPostcode from 'vuejs-daum-postcode'
+
     export default {
+        components: { daumPostcode },
         name: "EventComponent6",
         data: () => ({
             parent: {
@@ -171,7 +188,9 @@
                 {age: 11, desc: '초등4'},
                 {age: 12, desc: '초등5'},
                 {age: 13, desc: '초등6'},
-            ]
+            ],
+            dialogComponentKey: 1,
+            dialog: false
         }),
         methods: {
             birthdayFormatter : function(){
@@ -189,6 +208,20 @@
                     if(v.length == 8) this.parent.birthday = this.$moment(res).isValid() ? res : v.substr(0,4) + '-' + v.substr(4,2);
                     else this.parent.birthday = res;
                 } 
+            },
+            closeAddress: function(){
+                this.dialog = false;
+            },
+            showAddress : function(){
+                //component :key 값이 상이해지면 초기화됩니다.
+                this.dialogComponentKey += 1;
+                this.dialog = true;
+            },
+            handleAddress: function(data){
+                console.log('handleAddress.data', data);
+                this.children.address.zip_code = data.zonecode;
+                this.children.address.base = data.address;
+                this.closeAddress();
             },
             phoneFormatter : function(){
                 //let v = (e.target.value || '').replace(/[^0-9]/g, '').replace('-', '');
@@ -232,6 +265,9 @@
                     }
                 }
                 this.parent.phone_number = res;
+            },
+            put : function(){
+                console.log('Vue.axios', axios.put());
             }
         }
     }

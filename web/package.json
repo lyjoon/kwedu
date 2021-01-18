@@ -8,11 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-axios": "^3.2.2",
     "vue-moment": "^4.1.0",
     "vue-momentjs": "^1.0.0",
     "vue-router": "^3.4.9",
+    "vuejs-daum-postcode": "^1.0.4",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {
