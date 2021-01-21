@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "service.mail")
+@ConfigurationProperties(prefix = "service.email")
 public class ServiceMailProperties {
 
     private String sendFrom;

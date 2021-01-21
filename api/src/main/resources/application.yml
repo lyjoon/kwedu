@@ -1,10 +1,6 @@
 spring:
   application:
     name: kwedu
-#  mvc:
-#    static-path-pattern: /static/**
   resources:
     static-locations:
       - file:src/main/resources/static
-  thymeleaf:
-    prefix: classpath:/static/

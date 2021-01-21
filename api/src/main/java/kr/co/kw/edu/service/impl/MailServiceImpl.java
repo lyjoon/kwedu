@@ -2,6 +2,7 @@ package kr.co.kw.edu.service.impl;
 
 import kr.co.kw.edu.common.BaseComponent;
 import kr.co.kw.edu.exception.BaseException;
+import kr.co.kw.edu.properties.ServiceMailProperties;
 import kr.co.kw.edu.service.MailService;
 import kr.co.kw.edu.util.StringUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +27,7 @@ public class MailServiceImpl extends BaseComponent implements MailService {
 
     private final SpringTemplateEngine springTemplateEngine;
 
-    @Value("${service.email.default-subject:}")
-    private String defaultSubject = "";
+    private final ServiceMailProperties serviceMailProperties;
 
     /**
      * 텍스트 메일
@@ -42,7 +42,7 @@ public class MailServiceImpl extends BaseComponent implements MailService {
         if(Objects.isNull(to)) throw new BaseException("invalid 'to'");
 
         simpleMailMessage.setTo(to);
-        simpleMailMessage.setSubject(StringUtil.defaultString(subject, this.defaultSubject));
+        simpleMailMessage.setSubject(StringUtil.defaultString(subject, serviceMailProperties.getDefaultSubject()));
         simpleMailMessage.setText(text);
         simpleMailMessage.setFrom(from);
         this.javaMailSender.send(simpleMailMessage);

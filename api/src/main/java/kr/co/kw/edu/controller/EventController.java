@@ -12,6 +12,11 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping(value = "/event")
@@ -22,10 +27,21 @@ public class EventController extends BaseComponent {
 
     private final ServiceMailProperties serviceMailProperties;
 
-    @PutMapping(value = "/api/inquiry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> inquiry(@RequestBody EventInquiry eventInquiry) {
+    @PutMapping(value = "/inquiry", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> inquiry(@RequestBody EventInquiry eventInquiry) throws MessagingException {
+        /**
         mailService.sendSimpleMessage(this.serviceMailProperties.getSendFrom(), this.serviceMailProperties.getSendToList(),
-                this.messageSourceAccessor.getMessage("event.inquiry.mail.title"), eventInquiry.toString());
+                this.getMessage("event.inquiry.mail.title"), eventInquiry.toString());
+        */
+
+        java.util.Map<String, Object> reMap = convertToMap(eventInquiry);
+
+        reMap.put("inquiry_date", LocalDateTime.now().format(DateTimeFormatter.ofPattern(this.getMessage("pattern.datetime"))));
+
+        mailService.sendMimeMessage(this.serviceMailProperties.getSendFrom(),
+                this.serviceMailProperties.getSendToList(),
+                this.getMessage("event.inquiry.mail.title"), this.mailService.getTemplateText("event/inquiry", convertToMap(eventInquiry)));
+
         return ResponseEntity.ok("ok");
     }
 }

@@ -1,9 +1,85 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.thymeleaf.org ">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta charset="utf-8">
+        <style type="text/css">
+            .inquiry_tbl{
+                border-collapse: collapse;
+                min-width:600px;
+                max-width:1280px;
+                width:100%;
+            }
+            .inquiry_tbl tr th{
+                border: 1px solid #1a1a13;
+                background-color:#272731;
+                padding:20px;
+                color:white;
+            }
+            .inquiry_tbl tr td{
+                border: 1px solid #e2e2e3;
+                padding:20px;
+            }
+        </style>
 </head>
-<body>
-    너의이름은 : <span th:text="${name}"></span>
-</body>
+    <body>
+        <div class="container">
+            <h3>학부모 정보</h3>
+            <table class="inquiry_tbl">
+                <colgroup >
+                    <col width="30%" />
+                    <col width="70%" />
+                </colgroup>
+                <tr>
+                    <th>성명</th>
+                    <td><span th:text="${parent_name}">김부모</span></td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td><span th:text="${parent_birthday}">1983년 4월 27일</span></td>
+                </tr>
+                <tr>
+                    <th>성별</th>
+                    <td><span th:text="${parent_gender}">남성</span></td>
+                </tr>
+                <tr>
+                    <th>연락처</th>
+                    <td><span th:text="${parent_phone}">010-5555-6666</span></td>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="container" style="margin-top:30px;">
+            <h3>자녀 정보</h3>
+            <table class="inquiry_tbl">
+                <colgroup >
+                    <col width="30%" />
+                    <col width="70%" />
+                </colgroup>
+                <tr>
+                    <th>성명</th>
+                    <td><span th:text="${name}">홍길동</span></td>
+                </tr>
+                <tr>
+                    <th>나이</th>
+                    <td><span th:text="${age}">3세</span></td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td>
+                        <span th:if="${not #strings.isEmpty(zip_code)}" th:text="${'(' + zip_code + ')'}">(06123)</span>
+                        <span th:text="${base_address}">서울시 강남구 역삼동 봉은사로 4길 35</span>
+                        <span th:text="${detail_address}">101호</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>문의일시</th>
+                    <td><span th:text="${inquiry_date}">2020년 1월 20일 15시 32분</span></td>
+                </tr>
+            </table>
+        </div>
+    </body>
 </html>

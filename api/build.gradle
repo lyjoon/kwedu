@@ -39,10 +39,15 @@ dependencies {
 
     compileOnly("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
+    compile("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
 
     //lombok
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    implementation("com.sun.mail:javax.mail:1.6.2")
+
+    //providedRuntime("javax.servlet:javax.servlet-api:3.1.0")
+
 }
 
 bootJar { enabled = true }
@@ -50,10 +55,10 @@ jar { enabled = true }
 
 //boot-jar
 bootJar {
-    archiveFileName = "kwedu-api.${archiveExtension.get()}"
+    archiveFileName = "kwedu.${archiveExtension.get()}"
 }
 
 //boot-war
 bootWar {
-    archiveFileName = "kwedu-api.${archiveExtension.get()}"
+    archiveFileName = "kwedu.${archiveExtension.get()}"
 }

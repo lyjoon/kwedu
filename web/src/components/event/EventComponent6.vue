@@ -2,7 +2,7 @@
     <v-flex class="edu06">
          <v-container class="pt-12 pb-12">
              <v-sheet color="#f1f2f2" rounded class="mb-large pa-6">
-                <v-form>
+                <v-form ref="entryForm">
                     <v-card elevation="2" round color="white" >
                         <v-toolbar class="primary" dark dense>
                             <v-toolbar-title>학부모 정보</v-toolbar-title>
@@ -11,7 +11,7 @@
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>성명</strong></div>
                                 <div class="d-flex flex-fill">
-                                    <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter />
+                                    <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter :rules="[rules.required]" />
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -19,7 +19,7 @@
                                 <div class="d-flex flex-fill">
                                     <v-text-field maxlength="10" placeholder="생년월일을 입력해주세요." 
                                         v-model="inquiry.parent_birthday"
-                                        label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" />
+                                        label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" :rules="[rules.birthday]" />
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -34,18 +34,18 @@
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>연락처</strong></div>
                                 <div class="d-flex flex-fill">
-                                    <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @keyup="phoneFormatter()" />
+                                    <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @keyup="phoneFormatter()" :rules="[rules.phoneNumber]" />
                                 </div>
                             </div>
                         </v-card-text>
                         <v-card-text class="pt-8 hidden-md-and-up">
                             <div class="d-block">
-                                <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter />
+                                <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter :rules="[rules.required]" />
                             </div>
                             <div class="d-block">
                                 <v-text-field maxlength="10" placeholder="생년월일을 입력해주세요." 
                                     v-model="inquiry.parent_birthday"
-                                    label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" />
+                                    label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" :rules="[rules.birthday]" />
                             </div>
                             <div class="d-block">
                                 <v-radio-group v-model="inquiry.parent_gender" row class="pa-0 ma-0">
@@ -58,7 +58,7 @@
                             </div>
                             
                             <div class="d-block">
-                                <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @keyup="phoneFormatter()" />
+                                <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @keyup="phoneFormatter()" :rules="[rules.phoneNumber]" />
                             </div>
                             
                         </v-card-text>
@@ -73,13 +73,13 @@
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>자녀 이름</strong></div>
                                 <div class="d-flex flex-fill">
-                                    <v-text-field maxlength="20" v-model="inquiry.name" placeholder="자녀의 이름을 입력해주세요." label="자녀의 이름을 입력해주세요." dense outlined counter />
+                                    <v-text-field maxlength="20" v-model="inquiry.name" placeholder="자녀의 이름을 입력해주세요." label="자녀의 이름을 입력해주세요." dense outlined counter :rules="[rules.required]" />
                                 </div>
                             </div>
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>자녀 나이</strong></div>
                                 <div class="d-flex flex-fill">
-                                    <v-select v-model="inquiry.age" :items="ages" :item-text="'desc'" :item-value="'age'" dense outlined></v-select>
+                                    <v-select v-model="inquiry.age" :items="ages" :item-text="'desc'" :item-value="'desc'" dense outlined></v-select>
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -93,7 +93,7 @@
                                             <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
                                         </v-col>
                                         <v-col class="col-12">
-                                            <v-text-field v-model="inquiry.base_address" readonly dense outlined  placeholder="기본주소" label="기본주소"/>
+                                            <v-text-field v-model="inquiry.base_address" readonly dense outlined  placeholder="기본주소" label="기본주소" :rules="[rules.address]" />
                                         </v-col>
                                         <v-col class="col-12">
                                             <v-text-field v-model="inquiry.detail_address" dense outlined placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요."/>
@@ -106,7 +106,7 @@
                         <v-card-text class="pt-8 hidden-md-and-up">
 
                             <div class="d-block">
-                                <v-text-field maxlength="20" v-model="inquiry.name" placeholder="자녀의 이름을 입력해주세요." label="자녀의 이름을 입력해주세요." dense outlined counter />
+                                <v-text-field maxlength="20" v-model="inquiry.name" placeholder="자녀의 이름을 입력해주세요." label="자녀의 이름을 입력해주세요." dense outlined counter :rules="[rules.required]"  />
                             </div>
                             <div class="d-block">
                                 <v-select v-model="inquiry.age" :items="ages" :item-text="'desc'" :item-value="'age'" placeholder="나이를 선택해주세요." dense outlined></v-select>
@@ -120,7 +120,7 @@
                                         <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호</v-btn>
                                     </v-col>
                                     <v-col class="col-12">
-                                        <v-text-field v-model="inquiry.base_address" readonly placeholder="기본 주소지" label="기본 주소지" dense outlined  />
+                                        <v-text-field v-model="inquiry.base_address" readonly placeholder="기본 주소지" label="기본 주소지" dense outlined :rules="[rules.address]" />
                                     </v-col>
                                     <v-col class="col-12">
                                         <v-text-field v-model="inquiry.detail_address" placeholder="상세주소를 입력해주세요." label="상세주소를 입력해주세요." dense outlined  />
@@ -139,6 +139,7 @@
          <v-dialog
                     v-model="dialog"
                     persistent
+                    max-width="1000"
                 >
                     <v-card>
                         <v-toolbar color="primary" dense dark>
@@ -153,6 +154,13 @@
             <v-progress-circular class="large" indeterminate
                                                     color="amber"></v-progress-circular>
         </v-overlay>
+
+         <v-snackbar
+              v-model="api_progress"
+              multi-line>
+              <v-icon class="mdi-email mr-2">mdi-email</v-icon> {{ api_message }}
+        </v-snackbar>
+
     </v-flex>
 </template>
 
@@ -171,7 +179,7 @@
                 parent_gender: 'M',
                 parent_phone: '',
                 name:'',
-                age: 3,
+                age: '3세',
                 base_address: '',
                 detail_address: '',
                 zip_code: ''
@@ -191,7 +199,23 @@
             ],
             dialogComponentKey: 1,
             dialog: false,
-            loading: false
+            loading: false,
+            api_progress: false,
+            api_message: '',
+            rules: {
+                required: value => !!value || '필수 입력항목 입니다.',
+                address: value => !!value || '우편번호 검색을 통해 주소를 입력해주세요.',
+                email: value => {
+                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    return pattern.test(value) || 'e-mail 주소가 잘못되었습니다.'
+                },
+                birthday: value => {
+                    return /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/.test(value) || '생년월일이 잘못되었습니다.'
+                },
+                phoneNumber: value => {
+                    return /^\d{3}-\d{3,4}-\d{4}$/.test(value) || '연락처가 잘못 입력되었습니다.'
+                }
+            }
         }),
         methods: {
             birthdayFormatter : function(){
@@ -268,18 +292,31 @@
                 this.inquiry.parent_phone = res;
             },
             put : function(){
-                this.loading = true;
-                let _config = {
-                  //baseURL: 'http://localhost:8080/api',
-                  headers: {'Content-Type': 'application/json'}
-                };
-                axios.put('/api/event/inquiry', this.inquiry, _config)
-              .then(function(res){
-                this.loading = false;
-                console.log('put.response', res);
-              }).catch( function(err){
-                console.error('put.error.response', err);
-              });
+
+                valid : {
+
+                    if(!this.$refs.entryForm.validate()) {
+                        break valid;
+                    }
+
+                    this.loading = true;
+                    let _config = {
+                      //baseURL: 'http://localhost:8080/api',
+                      headers: {'Content-Type': 'application/json'}
+                    };
+
+                    axios.put('/api/event/inquiry', this.inquiry, _config)
+                      .then((res) => {
+                        console.log('put.response', res);
+                        this.loading = false;
+                        this.api_message = "문의가 정상적으로 처리되었습니다.";
+                        this.api_progress = true;
+                      }).catch( (err) => {
+                        console.error('put.error.response', err);
+                        this.api_message = "잠시 후 다시 시도해주시기 바랍니다.";
+                        this.api_progress = true;
+                      });
+                }
             }
         }
     }
