@@ -57,15 +57,19 @@ public class MailServiceImpl extends BaseComponent implements MailService {
      * @throws MessagingException
      */
     @Override
-    public void sendMimeMessage(String from, String[] to, String subject, String contents) throws MessagingException {
+    public void sendMimeMessage(String from, String[] to, String subject, String contents) {
         MimeMessage mimeMailMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMailMessage);
 
-        mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setTo(to);
-        mimeMessageHelper.setFrom(from);
-        mimeMessageHelper.setText(contents, true);
-        this.javaMailSender.send(mimeMailMessage);
+        try {
+            mimeMessageHelper.setSubject(subject);
+            mimeMessageHelper.setTo(to);
+            mimeMessageHelper.setFrom(from);
+            mimeMessageHelper.setText(contents, true);
+            this.javaMailSender.send(mimeMailMessage);
+        } catch (MessagingException exception) {
+            throw new BaseException(exception);
+        }
     }
 
     /**

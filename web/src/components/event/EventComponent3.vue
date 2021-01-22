@@ -5,8 +5,7 @@
                 hide-delimiters show-arrows>
                 <v-carousel-item v-for="item in imgs"
                                :key="item" :eager="true" height="auto">            
-                    <v-img :src="item" width="100%" placeholder="require(@/assets/images/edu/section3_2_1.jpg)">
-                    </v-img>
+                    <img :src="item" width="100%" />
                 </v-carousel-item>
             </v-carousel>
         </v-container>

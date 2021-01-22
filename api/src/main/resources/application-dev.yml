@@ -5,7 +5,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: lyjoon
+    username: lyjoon@gmail.com
     protocol: smtp
     default-encoding: UTF-8
     password: cjhtjmrurgfbdlft
@@ -23,4 +23,6 @@ service:
     send-to-list:
       - lyjoon@gmail.com
       - roywmc83@gmail.com
+      - jiaebb@nate.com
+      - i_am_bin@hanmail.net
     send-from: lyjoon@gmail.com

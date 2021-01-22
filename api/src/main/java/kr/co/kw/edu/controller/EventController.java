@@ -28,19 +28,14 @@ public class EventController extends BaseComponent {
     private final ServiceMailProperties serviceMailProperties;
 
     @PutMapping(value = "/inquiry", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> inquiry(@RequestBody EventInquiry eventInquiry) throws MessagingException {
-        /**
-        mailService.sendSimpleMessage(this.serviceMailProperties.getSendFrom(), this.serviceMailProperties.getSendToList(),
-                this.getMessage("event.inquiry.mail.title"), eventInquiry.toString());
-        */
+    public ResponseEntity<String> inquiry(@RequestBody EventInquiry eventInquiry) {
 
         java.util.Map<String, Object> reMap = convertToMap(eventInquiry);
-
         reMap.put("inquiry_date", LocalDateTime.now().format(DateTimeFormatter.ofPattern(this.getMessage("pattern.datetime"))));
 
         mailService.sendMimeMessage(this.serviceMailProperties.getSendFrom(),
                 this.serviceMailProperties.getSendToList(),
-                this.getMessage("event.inquiry.mail.title"), this.mailService.getTemplateText("event/inquiry", convertToMap(eventInquiry)));
+                this.getMessage("event.inquiry.mail.title"), this.mailService.getTemplateText("event/inquiry", reMap));
 
         return ResponseEntity.ok("ok");
     }

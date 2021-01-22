@@ -2,11 +2,19 @@
     <v-flex class="edu06">
          <v-container class="pt-12 pb-12">
              <v-sheet color="#f1f2f2" rounded class="mb-large pa-6">
-                <v-form ref="entryForm">
+                <v-form ref="entryForm" id="inquiry-form">
                     <v-card elevation="2" round color="white" >
-                        <v-toolbar class="primary" dark dense>
-                            <v-toolbar-title>학부모 정보</v-toolbar-title>
+
+                        <v-toolbar class="white" dense elevation="0">
+                            <v-toolbar-title class="pink--text"><strong>학부모 정보</strong></v-toolbar-title>
+                            <v-spacer />
+                            <v-icon class="mdi-menu-up">mdi-menu-up</v-icon>
                         </v-toolbar>
+                        <div class="pl-3 pr-3">
+                            <v-divider class="pink mx-auto" />
+                        </div>
+
+
                         <v-card-text class="pt-8 hidden-sm-and-down">
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>성명</strong></div>
@@ -58,16 +66,21 @@
                             </div>
                             
                             <div class="d-block">
-                                <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @keyup="phoneFormatter()" :rules="[rules.phoneNumber]" />
+                                <v-text-field maxlength="13" v-model="inquiry.parent_phone" placeholder="연락처를 입력해주세요." label="연락처를 입력해주세요." dense outlined counter @focus="phoneFormatter()" @keyup="phoneFormatter()" :rules="[rules.phoneNumber]" />
                             </div>
                             
                         </v-card-text>
                     </v-card>
                     <v-divider class="mx-auto mt-4 mb-4" />
                     <v-card elevation="2" round color="white">
-                        <v-toolbar class="primary" dark dense>
-                            <v-toolbar-title>자녀 정보</v-toolbar-title>
+                        <v-toolbar class="white" dense elevation="0">
+                            <v-toolbar-title class="pink--text"><strong>자녀 정보</strong></v-toolbar-title>
+                            <v-spacer />
+                            <v-icon class="mdi-menu-up">mdi-menu-up</v-icon>
                         </v-toolbar>
+                        <div class="pl-3 pr-3">
+                            <v-divider class="pink mx-auto" />
+                        </div>
                         <v-card-text class="pt-8 hidden-sm-and-down">
 
                             <div class="d-flex">
@@ -90,7 +103,7 @@
                                             <v-text-field v-model="inquiry.zip_code" readonly dense outlined  placeholder="우편번호" label="우편번호" />
                                         </v-col>
                                         <v-col class="col-9 pl-4">
-                                            <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
+                                            <v-btn class="pink" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
                                         </v-col>
                                         <v-col class="col-12">
                                             <v-text-field v-model="inquiry.base_address" readonly dense outlined  placeholder="기본주소" label="기본주소" :rules="[rules.address]" />
@@ -131,8 +144,10 @@
                     </v-card>
                 </v-form>
 
-                <div class="d-flex justify-center">
-                    <v-btn x-large class="flex-fill primary pa-8 mt-6 mb-6" @click="put()" dark>정보입력</v-btn>
+                <div class="d-flex justify-center pl-12 pr-12">
+                    <v-btn x-large class="flex-fill deep-orange dark pa-8 mt-6 mb-6" @click="put()" dark>
+                        <strong class="display-1">정보입력</strong>
+                    </v-btn>
                 </div>
              </v-sheet>
          </v-container>
@@ -249,7 +264,6 @@
                 this.closeAddress();
             },
             phoneFormatter : function(){
-                //let v = (e.target.value || '').replace(/[^0-9]/g, '').replace('-', '');
                 let v = this.inquiry.parent_phone.replace(/[^0-9]/g, '').replace(/\s/gi, '');
                 let res = ''
 
@@ -284,8 +298,8 @@
                         {
                             res = v.substr(0, 3) + '-' + v.substr(3, 3) + '-' + v.substr(6)
                         }
-                        else if(v.length > 10) { //010-1234-5678
-                            res = v.substr(0, 3) + '-' + v.substr(3, 4) + '-' + v.substr(7)
+                        else if(v.length > 10) {
+                            res = v.substr(0, 3) + '-' + v.substr(3, 4) + '-' + v.substr(7, 4)
                         }
                     }
                 }
@@ -311,7 +325,7 @@
                         this.loading = false;
                         this.api_message = "문의가 정상적으로 처리되었습니다.";
                         this.api_progress = true;
-                      }).catch( (err) => {
+                      }).catch((err) => {
                         console.error('put.error.response', err);
                         this.api_message = "잠시 후 다시 시도해주시기 바랍니다.";
                         this.api_progress = true;
