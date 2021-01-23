@@ -2,7 +2,7 @@
     <v-flex class="edu06">
          <v-container class="pt-12 pb-12">
              <v-sheet color="#f1f2f2" rounded class="mb-large pa-6">
-                <v-form ref="entryForm" id="inquiry-form">
+                <v-form ref="entryForm" >
                     <v-card elevation="2" round color="white" >
 
                         <v-toolbar class="white pt-3 pb-2" dense elevation="0">
@@ -122,7 +122,7 @@
                                 <v-text-field maxlength="20" v-model="inquiry.name" placeholder="자녀의 이름을 입력해주세요." label="자녀의 이름을 입력해주세요." dense outlined counter :rules="[rules.required]"  />
                             </div>
                             <div class="d-block">
-                                <v-select v-model="inquiry.age" :items="ages" :item-text="'desc'" :item-value="'age'" placeholder="나이를 선택해주세요." dense outlined></v-select>
+                                <v-select v-model="inquiry.age" :items="ages" :item-text="'desc'" :item-value="'desc'" placeholder="나이를 선택해주세요." dense outlined></v-select>
                             </div>
                             <div class="d-block">
                                 <v-row no-gutters >
@@ -130,7 +130,7 @@
                                         <v-text-field v-model="inquiry.zip_code" readonly placeholder="우편번호" label="우편번호" maxlength="6" dense outlined  />
                                     </v-col>
                                     <v-col class="col-7 pl-2">
-                                        <v-btn class="primary" dark elevation="1" @click="showAddress">우편번호</v-btn>
+                                        <v-btn class="pink darken-1" dark elevation="1" @click="showAddress">우편번호</v-btn>
                                     </v-col>
                                     <v-col class="col-12">
                                         <v-text-field v-model="inquiry.base_address" readonly placeholder="기본 주소지" label="기본 주소지" dense outlined :rules="[rules.address]" />
@@ -148,7 +148,7 @@
                 </v-form>
 
                 <div class="d-flex justify-center">
-                    <v-btn x-large class="flex-fill pink dark pa-8 mt-6 mb-6" @click="put()" dark>
+                    <v-btn x-large class="flex-fill pink dark pa-8 mt-6 mb-6" @click="put()" dark id="inquiry-form">
                         <span class="title">정보입력</span>
                     </v-btn>
                 </div>
@@ -156,7 +156,7 @@
          </v-container>
          <v-dialog v-model="dialog" persistent max-width="1000">
             <v-card>
-                <v-toolbar color="primary" dense dark>
+                <v-toolbar color="pink darken-1" dense dark>
                     <v-toolbar-title>주소검색</v-toolbar-title>
                     <v-spacer />
                     <v-icon class="mdi-close" @click="closeAddress">mdi-close</v-icon>
@@ -167,7 +167,7 @@
 
         <v-dialog v-model="dialog2" persistent max-width="1000">
             <v-card>
-                <v-toolbar color="primary" dense dark>
+                <v-toolbar color="pink darken-1" dense dark>
                     <v-toolbar-title class="body-1">비회원 개인정보 이용약관</v-toolbar-title>
                 </v-toolbar>
 
@@ -205,7 +205,7 @@
                     </v-card>
 
                     <div class="d-flex justify-center mt-4 mb-2">
-                        <v-btn class="primary" dark @click="agreed_terms=true; dialog2=false;">
+                        <v-btn class="pink darken-1" dark @click="agreed_terms=true; dialog2=false;">
                             <v-icon small icon class="mx-auto">mdi-check</v-icon>
                             <span>동의</span>
                         </v-btn>
