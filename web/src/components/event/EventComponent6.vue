@@ -5,7 +5,7 @@
                 <v-form ref="entryForm" id="inquiry-form">
                     <v-card elevation="2" round color="white" >
 
-                        <v-toolbar class="white" dense elevation="0">
+                        <v-toolbar class="white pt-3 pb-2" dense elevation="0">
                             <v-toolbar-title class="pink--text"><strong>학부모 정보</strong></v-toolbar-title>
                             <v-spacer />
                             <v-icon class="mdi-menu-up">mdi-menu-up</v-icon>
@@ -144,9 +144,9 @@
                     </v-card>
                 </v-form>
 
-                <div class="d-flex justify-center pl-12 pr-12">
-                    <v-btn x-large class="flex-fill deep-orange dark pa-8 mt-6 mb-6" @click="put()" dark>
-                        <strong class="display-1">정보입력</strong>
+                <div class="d-flex justify-center">
+                    <v-btn x-large class="flex-fill pink dark pa-8 mt-6 mb-6" @click="put()" dark>
+                        <span class="title">정보입력</span>
                     </v-btn>
                 </div>
              </v-sheet>
