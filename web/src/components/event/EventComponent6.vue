@@ -103,7 +103,7 @@
                                             <v-text-field v-model="inquiry.zip_code" readonly dense outlined  placeholder="우편번호" label="우편번호" />
                                         </v-col>
                                         <v-col class="col-9 pl-4">
-                                            <v-btn class="pink" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
+                                            <v-btn class="grey darken-1" dark elevation="1" @click="showAddress">우편번호 검색</v-btn>
                                         </v-col>
                                         <v-col class="col-12">
                                             <v-text-field v-model="inquiry.base_address" readonly dense outlined  placeholder="기본주소" label="기본주소" :rules="[rules.address]" />
@@ -142,6 +142,9 @@
                             </div>
                         </v-card-text>
                     </v-card>
+                    <div class="mt-2 body-2 pink--text">
+                        <v-checkbox outline v-model="agreed_terms" @click="chk_agreed_terms" label="[필수] 비회원 개인정보 수집에 동의합니다." :rules="[rules.check_terms]"></v-checkbox>
+                    </div>
                 </v-form>
 
                 <div class="d-flex justify-center">
@@ -151,20 +154,70 @@
                 </div>
              </v-sheet>
          </v-container>
-         <v-dialog
-                    v-model="dialog"
-                    persistent
-                    max-width="1000"
-                >
+         <v-dialog v-model="dialog" persistent max-width="1000">
+            <v-card>
+                <v-toolbar color="primary" dense dark>
+                    <v-toolbar-title>주소검색</v-toolbar-title>
+                    <v-spacer />
+                    <v-icon class="mdi-close" @click="closeAddress">mdi-close</v-icon>
+                </v-toolbar>
+                    <daum-postcode :on-complete="handleAddress" :key="dialogComponentKey" :on-autoclose="true" height="500px" />
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialog2" persistent max-width="1000">
+            <v-card>
+                <v-toolbar color="primary" dense dark>
+                    <v-toolbar-title class="body-1">비회원 개인정보 이용약관</v-toolbar-title>
+                </v-toolbar>
+
+
+                <v-sheet color="#eaeaea" class="pa-3">
                     <v-card>
-                        <v-toolbar color="primary" dense dark>
-                            <v-toolbar-title>주소검색</v-toolbar-title>
-                            <v-spacer />
-                            <v-icon class="mdi-close" @click="closeAddress">mdi-close</v-icon>
-                        </v-toolbar>
-                            <daum-postcode :on-complete="handleAddress" :key="dialogComponentKey" :on-autoclose="true" height="500px" />
+                        <v-card-title class="body-1">
+                            1. 개인정보의 수집,이용목적
+                        </v-card-title>
+
+                        <v-card-subtitle class="mt-1">
+                            교원에듀는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다.
+                        </v-card-subtitle>
+
+                        <v-card-text>
+                            <ul style="list-style:decimal">
+                                <li>성명, 주소 : 정확한 상품 배송지의 확보</li>
+                                <li>연락처 : 주문/배송정보 안내, 고지사항 전달, 본인 의사확인, 불만처리 등 원활한 의사소통 경로의 확보</li>
+                                <li>그 외 선택항목 : 개인 맞춤 서비스를 제공하기 위한 자료</li>
+                            </ul>
+                        </v-card-text>
                     </v-card>
-                </v-dialog>
+                    <v-card class="mt-3">
+                        <v-card-title class="body-1 mt-2">
+                            2. 개인정보보유 및 이용기간
+                        </v-card-title>
+
+                        <v-card-subtitle class="mt-1">
+                            교원에듀는 개인정보의 수집목적 또는 제공받은 목적이 달성된 때에는 귀하의 개인정보를 지체없이 파기합니다.
+                        </v-card-subtitle>
+
+                        <v-card-text>
+                            ※ 비회원 서비스 제공을 위해 고객님께서 입력하신 개인정보의 관리는 당사의 개인정보처리방침을 준용합니다.
+                        </v-card-text>
+                    </v-card>
+
+                    <div class="d-flex justify-center mt-4 mb-2">
+                        <v-btn class="primary" dark @click="agreed_terms=true; dialog2=false;">
+                            <v-icon small icon class="mx-auto">mdi-check</v-icon>
+                            <span>동의</span>
+                        </v-btn>
+                        <v-btn class="grey darken-2 ml-2" dark @click="agreed_terms=false; dialog2=false;">
+                            <v-icon small icon class="mx-auto" >mdi-cancel</v-icon>
+                            <span>동의하지않음</span>
+                        </v-btn>
+                    </div>
+                </v-sheet>
+            </v-card>
+        </v-dialog>
+
         <v-overlay :value="loading">
             <v-progress-circular class="large" indeterminate
                                                     color="amber"></v-progress-circular>
@@ -214,9 +267,11 @@
             ],
             dialogComponentKey: 1,
             dialog: false,
+            dialog2: false,
             loading: false,
             api_progress: false,
             api_message: '',
+            agreed_terms: false,
             rules: {
                 required: value => !!value || '필수 입력항목 입니다.',
                 address: value => !!value || '우편번호 검색을 통해 주소를 입력해주세요.',
@@ -229,7 +284,8 @@
                 },
                 phoneNumber: value => {
                     return /^\d{3}-\d{3,4}-\d{4}$/.test(value) || '연락처가 잘못 입력되었습니다.'
-                }
+                },
+                check_terms: value => !!value || '개인정보 약관에 동의해주셔야 합니다.'
             }
         }),
         methods: {
@@ -251,6 +307,9 @@
             },
             closeAddress: function(){
                 this.dialog = false;
+            },
+            closeTerms : function(){
+                this.dialog2 = false;
             },
             showAddress : function(){
                 //component :key 값이 상이해지면 초기화됩니다.
@@ -306,7 +365,6 @@
                 this.inquiry.parent_phone = res;
             },
             put : function(){
-
                 valid : {
 
                     if(!this.$refs.entryForm.validate()) {
@@ -314,6 +372,7 @@
                     }
 
                     this.loading = true;
+
                     let _config = {
                       //baseURL: 'http://localhost:8080/api',
                       headers: {'Content-Type': 'application/json'}
@@ -330,6 +389,14 @@
                         this.api_message = "잠시 후 다시 시도해주시기 바랍니다.";
                         this.api_progress = true;
                       });
+                }
+            },
+            chk_agreed_terms: function(){
+                console.log('chk_agreed_terms => ', this.agreed_terms);
+                if(this.agreed_terms) {
+                    this.dialog2 = true;
+                } else {
+                    console.log('chk_agreed_terms => ', this.agreed_terms);
                 }
             }
         }
