@@ -378,7 +378,7 @@
                       headers: {'Content-Type': 'application/json'}
                     };
 
-                    axios.put('/api/event/inquiry', this.inquiry, _config)
+                    axios.put('/kwedu/api/event/inquiry', this.inquiry, _config)
                       .then((res) => {
                         console.log('put.response', res);
                         this.loading = false;
