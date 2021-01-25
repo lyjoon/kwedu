@@ -22,6 +22,7 @@
                                     <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter :rules="[rules.required]" />
                                 </div>
                             </div>
+                            <!--
                             <div class="d-flex">
                                 <div class="d-flex mt-2 text-field-label"><strong>생년월일</strong></div>
                                 <div class="d-flex flex-fill">
@@ -30,6 +31,7 @@
                                         label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" :rules="[rules.birthday]" />
                                 </div>
                             </div>
+                            -->
                             <div class="d-flex">
                                 <div class="d-flex text-field-label"><strong>성별</strong></div>
                                 <div class="d-flex flex-fill">
@@ -50,11 +52,13 @@
                             <div class="d-block">
                                 <v-text-field maxlength="20" v-model="inquiry.parent_name" placeholder="학부모 성명을 입력해주세요." label="학부모 성명을 입력해주세요." dense outlined counter :rules="[rules.required]" />
                             </div>
+                            <!--
                             <div class="d-block">
                                 <v-text-field maxlength="10" placeholder="생년월일을 입력해주세요." 
                                     v-model="inquiry.parent_birthday"
                                     label="생년월일을 입력해주세요." dense outlined counter @keyup="birthdayFormatter()" :rules="[rules.birthday]" />
                             </div>
+                            -->
                             <div class="d-block">
                                 <v-radio-group v-model="inquiry.parent_gender" row class="pa-0 ma-0">
                                     <template v-slot:label>
@@ -279,9 +283,11 @@
                     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                     return pattern.test(value) || 'e-mail 주소가 잘못되었습니다.'
                 },
+                /**
                 birthday: value => {
                     return /^(19|20)\d{2}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$/.test(value) || '생년월일이 잘못되었습니다.'
                 },
+                */
                 phoneNumber: value => {
                     return /^\d{3}-\d{3,4}-\d{4}$/.test(value) || '연락처가 잘못 입력되었습니다.'
                 },
