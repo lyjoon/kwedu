@@ -1,0 +1,28 @@
+server:
+  port: 80
+#  servlet:
+#    context-path: /kwedu
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    protocol: smtp
+    default-encoding: UTF-8
+    password:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        mime:
+          charset: UTF-8
+service:
+  email:
+    default-subject: 교원에듀 빨간펜 무료교재 문의
+    send-to-list:
+      - jiaebb@nate.com
+      - i_am_bin@hanmail.net
+    send-from:

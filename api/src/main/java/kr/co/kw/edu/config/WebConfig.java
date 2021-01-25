@@ -21,9 +21,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+/**
+ * web-mvc 관련설정
+ *
+ * @author lyjoon@gmail.com
+ *
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    /**
+     * 정적파일 경로설정
+     * @param registry
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**/*")
@@ -40,6 +50,11 @@ public class WebConfig implements WebMvcConfigurer {
                 });
     }
 
+    /**
+     * 요청 url-mapping 관련 @RestController 로 매핑설정된 자원들에 대해 uri-prefix 값을 주었습니다.
+     * url-pattern 에 따라 proxy 구성을 용이하게 하기위함
+     * @param configurer
+     */
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer
@@ -49,6 +64,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPrefix("/api", HandlerTypePredicate.forAnnotation(RestController.class));
     }
 
+    /**
+     * 다국어 메세지 설정 1
+     * @return
+     */
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -59,6 +78,11 @@ public class WebConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
+    /**
+     * 다국어 메세지 설정 2
+     * @param messageSource
+     * @return
+     */
     @Bean
     public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource){
         MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);

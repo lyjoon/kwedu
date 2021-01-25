@@ -10,10 +10,18 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 템플릿 관련 컨트롤러 (테스트목적, 삭제하여도 무방함)
+ * thymeleaf (classpath:template/*) 구성 디자인을 확인하고자 생성함.
+ */
 @Controller
 @RequestMapping(value = "/template")
 public class TemplateController extends BaseComponent {
 
+    /**
+     * 빨간펜 교재 문의에 대한 인적정보 메일템플릿 확인용
+     * @return
+     */
     @GetMapping(value = "/event/inquiry")
     public ModelAndView eventEmailInquiry(){
         EventInquiry eventInquiry = new EventInquiry();

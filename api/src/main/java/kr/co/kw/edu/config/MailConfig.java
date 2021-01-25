@@ -9,6 +9,12 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
+/**
+ * 메일발송 관련 JavaMailSender 을 context 상에 생성하는 설정입니다.
+ *
+ * @author lyjoon@gmail.com
+ * @see #javaMailSender()  spring-boot 내 JavaMailSender 관련 auto configuration 기능이 있지만 jvm 환경에 따라 생성되지 않을 수 있으니 강제적으로 생성해둡니다.
+ */
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "spring.mail")

@@ -10,6 +10,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ *
+ * 공통 컴포넌트로 controller , service, 기능 component 에 class 에서 상속받아쓰시면 됩니다.
+ * 구지 상속 받지 않아도 상관은 없습니다.
+ *
+ * @author lyjoon@gmail.com
+ */
 public class BaseComponent {
 
     @Autowired
