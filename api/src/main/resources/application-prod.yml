@@ -1,16 +1,16 @@
 server:
   port: 80
 #  servlet:
-#    context-path: /kwedu
+#    context-path: /event
 
 spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username:
+    username: jiaebb.kyowon@gmail.com
     protocol: smtp
     default-encoding: UTF-8
-    password:
+    password: hwpdundbhsnhafim
     properties:
       mail:
         smtp:
@@ -25,4 +25,4 @@ service:
     send-to-list:
       - jiaebb@nate.com
       - i_am_bin@hanmail.net
-    send-from:
+    send-from: jiaebb.kyowon@gmail.com

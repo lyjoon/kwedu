@@ -1,6 +1,8 @@
 package kr.co.kw.edu.config;
 
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
  * @author lyjoon@gmail.com
  *
  */
+@Slf4j
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
@@ -44,6 +47,7 @@ public class WebConfig implements WebMvcConfigurer {
                     protected Resource getResource(String resourcePath,
                                                    Resource location) throws IOException {
                         Resource requestedResource = location.createRelative(resourcePath);
+                        log.info("[{}] requestedResource.exists :: {}, {}", resourcePath, requestedResource.exists(), requestedResource.isReadable());
                         return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
                                 : new ClassPathResource("/static/index.html");
                     }

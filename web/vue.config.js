@@ -1,7 +1,8 @@
 const path = require('path')
+const process = require('process')
 
 module.exports = {
-    "publicPath": "/kwedu",
+    "publicPath": process.env.VUE_APP_PUBLIC_PATH || '/',
     "outputDir" : path.resolve(__dirname, "../api/src/main/resources/static"),
     "transpileDependencies": [
         "vuetify"

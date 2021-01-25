@@ -9,10 +9,14 @@ import EventPage from '../pages/EventPage'
 Vue.use(Router)
 
 export default new Router({
-  //mode: 'history', //removes # (hashtag) from url
+  mode: 'history', //removes # (hashtag) from url
   routes: [
      {
       path: '/',
+      component: EventPage
+    },
+    {
+      path: '/event',
       component: EventPage
     }
   ]

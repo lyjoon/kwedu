@@ -2,6 +2,7 @@ package kr.co.kw.edu.controller;
 
 import kr.co.kw.edu.common.BaseComponent;
 import kr.co.kw.edu.dto.EventInquiry;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  * thymeleaf (classpath:template/*) 구성 디자인을 확인하고자 생성함.
  */
 @Controller
-@RequestMapping(value = "/template")
+//@RequestMapping(value = "/template")
 public class TemplateController extends BaseComponent {
 
     /**
@@ -39,5 +40,10 @@ public class TemplateController extends BaseComponent {
         reMap.put("inquiry_date", LocalDateTime.now().format(DateTimeFormatter.ofPattern(this.getMessage("pattern.datetime"))));
 
         return new ModelAndView("event/inquiry", reMap);
+    }
+
+    @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
+    public String index (){
+        return "index";
     }
 }
