@@ -41,7 +41,7 @@ public class EventController extends BaseComponent {
 
         java.util.Map<String, Object> reMap = convertToMap(eventInquiry);
         reMap.put("inquiry_date", LocalDateTime.now().format(DateTimeFormatter.ofPattern(this.getMessage("pattern.datetime"))));
-
+        log.info(this.stringify(reMap));
         mailService.sendMimeMessage(this.serviceMailProperties.getSendFrom(),
                 this.serviceMailProperties.getSendToList(),
                 this.getMessage("event.inquiry.mail.title"), this.mailService.getTemplateText("event/inquiry", reMap));

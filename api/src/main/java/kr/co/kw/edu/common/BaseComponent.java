@@ -1,6 +1,7 @@
 package kr.co.kw.edu.common;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,6 +20,13 @@ import java.util.Map;
  */
 public class BaseComponent {
 
+    private ObjectMapper objectMapper = null;
+
+    protected ObjectMapper getObjectMapper(){
+        this.objectMapper = new ObjectMapper();
+        return this.objectMapper;
+    }
+
     @Autowired
     protected MessageSourceAccessor messageSourceAccessor;
 
@@ -26,8 +34,16 @@ public class BaseComponent {
     protected ApplicationContext applicationContext;
 
     protected Map<String, Object> convertToMap(Object fromValue){
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.convertValue(fromValue, HashMap.class);
+        return this.getObjectMapper().convertValue(fromValue, HashMap.class);
+    }
+
+    protected String stringify(Object fromValue){
+        try {
+            return this.getObjectMapper().writeValueAsString(fromValue);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     protected String getMessage(String code, String...args) {
