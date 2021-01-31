@@ -1,5 +1,5 @@
 rootProject.name = 'kwedu'
-include 'web'
+//include 'web'(미사용)
 include 'api'
-include 'api'
+include 'templates'
 
