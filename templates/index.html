@@ -98,9 +98,31 @@
                 }).open();
             });
 
-            
-            var successToast = new bootstrap.Toast(document.getElementById('put_success_toast'));
+            /* 처리결과 toast */
+            let successToast = new bootstrap.Toast(document.getElementById('put_success_toast'));
+            let serviceTermsModal = new bootstrap.Modal(document.getElementById('service_terms_modal'));
 
+            $("#checked_service_terms").on('click', function(){
+                if($("#checked_service_terms").prop("checked")) serviceTermsModal.show();
+            });
+
+            $("#agreed_service_terms").on('click', function(){
+                $("#checked_service_terms").prop("checked", true);
+                serviceTermsModal.hide();
+            });
+
+            $("#denied_service_terms").on('click', function(){
+                $("#checked_service_terms").removeProp("checked");
+                serviceTermsModal.hide();
+            });
+
+            $("#exit_service_terms").on('click', function(){
+                $("#checked_service_terms").removeProp("checked");
+                serviceTermsModal.hide();
+            });
+
+
+            /* 하단 이메일 보내기 버튼 클릭 */
             $("#edu_inquiry_form_button").on('click', function(){
                 var params = new Object();
             
@@ -108,9 +130,10 @@
                     params[item.name] = item.value;
                 });
                 //loading..
-                console.log('params', params);
+                //console.log('params', params);
 
                 valid : {
+                    // 입력항목 유효성 체크
                     $(".field_error").hide();
                     
                     if((params['parent_name'] || '') === '') {
@@ -128,12 +151,17 @@
                         break valid;
                     }
 
-                    
 
                     if((params['base_address'] || '') === '') {
                         $("#base_address").parent().find(".field_error").show();
                         break valid;
                     }
+
+                    if(!$("#checked_service_terms").prop("checked")) {
+                        alert('개인정보 수집여부 동의가 필요합니다.')
+                        break valid;
+                    }
+
                     $("#loading_backdrop").show();
                     
                     $.ajax({
@@ -144,7 +172,8 @@
                         complete : function(res){
                             console.log('res', res);
                             //end loading.
-                            $("#put_result_message").text("문의가 정상적으로 처리되었습니다.");
+
+                            $("#put_result_message").text(res.status == 200 ?"문의가 정상적으로 처리되었습니다." : "[ERROR] 잠시 후 다시 시도해주세요.");
                             successToast.show();
                             window.setTimeout(function(){
                                 $("#put_success_toast_exit").triggerHandler('click');
@@ -383,17 +412,54 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="mt-2 body-2 pink--text">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" id="checked_service_terms" name="checked_service_terms" />
+                                <label class="form-check-label" for="checked_service_terms">[필수] 비회원 개인정보 수집에 동의합니다.</label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card-body">
-                        <button type="button" class="btn btn-danger w-100 pt-2 pb-2" id="edu_inquiry_form_button" style="font-weight: 600;font-size: 12pt;">정보입력</a>
+                        <a type="button" class="btn btn-danger w-100 pt-2 pb-2" id="edu_inquiry_form_button" style="font-weight: 600;font-size: 12pt;">정보입력</a>
                     </div>
                 </div>
             </div>
         </div> 
     </form>
 
+    <!-- 개인정보 수집안내 modal -->
+    <div id="service_terms_modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">비회원 개인정보 이용약관</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="exit_service_terms"></button>
+                </div>
+                <div class="modal-body">
+                    <h6 class="model-subtitle"><strong>1. 개인정보의 수집,이용목적</strong></h6>
+                    <div class="model-text">
+                        교원에듀는 다음과 같은 목적을 위하여 개인정보를 수집하고 있습니다.
+                        <ul style="padding-left: 30px;list-style: circle">
+                            <li>성명, 주소 : 정확한 상품 배송지의 확보</li>
+                            <li>연락처 : 주문/배송정보 안내, 고지사항 전달, 본인 의사확인, 불만처리 등 원활한 의사소통경로</li>
+                            <li>그 외 선택항목 : 개인 맞춤 서비스를 제공하기 위한 자료</li>
+                        </ul>
+                    </div>
+
+                    <h6 class="model-subtitle"><strong>2. 개인정보보유 및 이용기간</strong></h6>
+                    <div class="model-text">
+                        교원에듀는 개인정보의 수집목적 또는 제공받은 목적이 달성된 때에는 귀하의 개인정보를 지체없이 파기합니다.
+                        <p> ※ 비회원 서비스 제공을 위해 고객님께서 입력하신 개인정보의 관리는 당사의 개인정보처리방침을 준용합니다.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="agreed_service_terms">동의</button>
+                    <button type="button" class="btn btn-secondary" id="denied_service_terms">미동의</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- 
         app-footer(bottom)
@@ -402,7 +468,7 @@
     <footer class="fixed-bottom">      
         <a class="btn btn-danger btn-lg btn-block w-100 pt-4 pb-4" href="#edu_inquiry_form_button">
             무료교재 신청하기
-        </button>
+        </a>
     </footer>
     
     
